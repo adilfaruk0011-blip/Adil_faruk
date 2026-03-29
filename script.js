@@ -214,3 +214,52 @@ window.addEventListener('load', function() {
 
     animate();
 });
+
+// ===== CURRENT FOCUS ANIMATION =====
+const focusObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+            const cards = entry.target.querySelectorAll('.focus-card');
+            cards.forEach((card, index) => {
+                // Har card ko thode delay ke baad reveal karein
+                setTimeout(() => {
+                    card.classList.add('reveal');
+                }, index * 200); // 200ms ka gap har card ke beech
+            });
+        }
+    });
+}, { threshold: 0.2 });
+
+const focusSection = document.querySelector('#focus');
+if (focusSection) focusObserver.observe(focusSection);
+
+// ===== PERMANENT SCROLL LANDING LOGIC =====
+
+const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+        // Section ke andar ke saare animate hone wale elements
+        const elements = entry.target.querySelectorAll('.reveal-element');
+        
+        if (entry.isIntersecting) {
+            // Jab section screen par aaye (Landing starts)
+            elements.forEach((el, index) => {
+                setTimeout(() => {
+                    el.classList.add('active');
+                }, index * 150); 
+            });
+        } else {
+            // JAB SECTION SCREEN SE BAHAR JAYE (Reset logic)
+            // Hum 'active' class hata denge taaki agli baar phir se animation ho sake
+            elements.forEach((el) => {
+                el.classList.remove('active');
+            });
+        }
+    });
+}, { 
+    threshold: 0.1 // Jab section ka 10% hissa dikhe tab trigger ho
+});
+
+// Saare sections ko observe karna shuru karein
+document.querySelectorAll('section').forEach((section) => {
+    revealObserver.observe(section);
+});

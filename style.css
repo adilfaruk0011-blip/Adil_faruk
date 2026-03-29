@@ -325,28 +325,60 @@ nav ul li a:hover {
     font-weight: 600;
 }
 
-/* Skill/Blog cards (Non-flip) */
-.skill-category {
-    background-color: #1a1a1a;
-    padding: 20px;
-    border-radius: 10px;
+/* --- SKILLS GRID LAYOUT --- */
+
+.skills-grid {
+    display: grid;
+    /* Isse boxes apne aap line mein lag jayenge */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+    gap: 25px;
+    margin-top: 40px;
+}
+
+.skill-box {
+    background: rgba(26, 26, 26, 0.85);
+    padding: 25px;
+    border-radius: 12px;
     border: 1px solid rgba(255, 255, 255, 0.1);
-    transition: transform 0.4s ease, box-shadow 0.4s ease; /* Transition add kiya */
+    transition: all 0.4s ease;
+    /* 3D effect jo humne pehle baat ki thi */
+    transform-style: preserve-3d;
 }
 
-.skill-category:hover {
-    transform: perspective(1000px) rotateX(10deg) rotateY(-5deg) scale(1.05);
-    box-shadow: -15px 20px 25px rgba(0,0,0,0.5);
-    border-color: #90caf9; /* Hover par blue border */
+.skill-box:hover {
+    border-color: #90caf9;
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
 }
 
-.skill-category h3 {
-    margin-bottom: 10px;
+.skill-box h3 {
+    margin-bottom: 20px;
     color: #90caf9;
+    font-size: 1.4rem;
+    border-bottom: 1px solid rgba(144, 202, 249, 0.3);
+    padding-bottom: 10px;
 }
 
-.skill-category p {
+/* Skill Tags (Individual Chips) */
+.skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.skill-tags span {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
     color: #e0e0e0;
+    transition: background 0.3s;
+}
+
+.skill-tags span:hover {
+    background: rgba(144, 202, 249, 0.2);
+    color: #fff;
 }
 
 .blog-card {
@@ -386,6 +418,92 @@ nav ul li a:hover {
 }
 
 /* Contact Form */
+.contact-wrapper {
+    display: flex;
+    justify-content: space-between;
+    gap: 50px;
+    margin-top: 40px;
+}
+
+.contact-info, .contact-form-container {
+    flex: 1;
+    background-color: rgba(26, 26, 26, 0.8);
+    padding: 30px;
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.contact-info h3 {
+    margin-bottom: 20px;
+    color: #90caf9;
+    font-size: 1.8rem;
+}
+
+.info-item {
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+}
+
+.info-item a {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.info-item a:hover {
+    color: #90caf9;
+}
+
+.contact-form input, .contact-form textarea {
+    width: 100%;
+    margin-bottom: 20px;
+    background: #0d0d0d;
+    border: 1px solid #333;
+    padding: 12px;
+    border-radius: 8px;
+    color: white;
+}
+
+.send-btn {
+    width: 100%;
+    background-color: #90caf9;
+    color: #000;
+    font-size: 1.1rem;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .contact-wrapper {
+        flex-direction: column;
+    }
+}
+
+.focus-card {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s ease-out;
+}
+
+.focus-card.reveal {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- UNIVERSAL SCROLL REVEAL --- */
+
+/* Shuruat mein elements hidden rahenge */
+.reveal-element {
+    opacity: 0;
+    transform: translateY(40px); /* Niche se upar aane ke liye */
+    transition: all 0.8s cubic-bezier(0.2, 1, 0.3, 1); /* Professional smooth motion */
+}
+
+/* Jab active class lagegi, tab landing hogi */
+.reveal-element.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
 .contact-container {
     max-width: 600px;
     margin: 0 auto;
@@ -393,25 +511,6 @@ nav ul li a:hover {
     padding: 30px;
     border-radius: 10px;
     border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.contact-info {
-    margin-bottom: 20px;
-}
-
-.contact-info p {
-    margin-bottom: 10px;
-    color: #e0e0e0;
-}
-
-.contact-info a {
-    color: #90caf9;
-    text-decoration: none;
-    transition: color 0.3s;
-}
-
-.contact-info a:hover {
-    color: #bbdefb;
 }
 
 input, textarea {
