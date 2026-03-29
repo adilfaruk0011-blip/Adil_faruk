@@ -81,6 +81,26 @@ nav ul li a:hover {
     color: #d0d0d0;
 }
 
+/* --- ENTRANCE ANIMATIONS --- */
+
+/* 1. Animation define kar rahe hain */
+@keyframes dropIn {
+    0% {
+        transform: translateY(-150px) scale(0.8); /* Upar aur thoda chota */
+        opacity: 0; /* Gayab */
+    }
+    100% {
+        transform: translateY(0) scale(1); /* Apni asli jagah par */
+        opacity: 1; /* Dikhne lage */
+    }
+}
+
+/* 3. Text ko bhi side se la sakte ho (Optional but looks cool) */
+@keyframes slideRight {
+    from { transform: translateX(-50px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
 /* Hero Section */
 .hero {
     height: 100vh;
@@ -106,11 +126,15 @@ nav ul li a:hover {
     margin-bottom: 20px;
     font-weight: bold;
     line-height: 1.2;
+    animation: slideRight 1s ease-out 0.3s forwards;
+    opacity: 0;
 }
 
 .hero-left h3 {
     margin-bottom: 10px;
     font-size: 1.3rem;
+    animation: slideRight 1s ease-out 0.5s forwards;
+    opacity: 0;
 }
 
 .tagline {
@@ -125,6 +149,8 @@ nav ul li a:hover {
     line-height: 1.6;
     font-size: 1rem;
     color: #e0e0e0;
+    animation: slideRight 1s ease-out 0.7s forwards;
+    opacity: 0;
 }
 
 .hero-buttons {
@@ -171,6 +197,7 @@ nav ul li a:hover {
     height: 300px;
     cursor: pointer;
     flex-shrink: 0;
+    animation: dropIn 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
 .hero-avatar {
@@ -235,11 +262,26 @@ nav ul li a:hover {
 
 .flip-card {
     background-color: transparent;
-    perspective: 1000px; /* 3D effect ke liye */
+    perspective: 1000px; /* Ye sabse zaroori hai 3D ke liye */
     height: 250px;
     padding: 0;
     border: none;
     box-shadow: none;
+    transition: transform 0.3s ease-out; /* Nayi line: Hover smooth karne ke liye */
+}
+
+.flip-card:hover {
+    transform: translateY(-10px) rotateX(5deg) rotateY(-5deg);
+    /* translateY(-10px) card ko hava mein uthata hai */
+    /* rotateX aur rotateY usko 3D tilt dete hain */
+    z-index: 10; /* Hover karne par card baaki cards ke upar aa jaye */
+}
+
+/* Jab card hava mein uthe, toh uske neeche ek shadow bhi banani chahiye */
+.flip-card:hover .flip-card-front,
+.flip-card:hover .flip-card-back {
+    box-shadow: 15px 20px 30px rgba(0, 0, 0, 0.6);
+    border-color: rgba(255, 255, 255, 0.3); /* Border thodi bright ho jaye */
 }
 
 .flip-card-inner {
@@ -289,6 +331,13 @@ nav ul li a:hover {
     padding: 20px;
     border-radius: 10px;
     border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: transform 0.4s ease, box-shadow 0.4s ease; /* Transition add kiya */
+}
+
+.skill-category:hover {
+    transform: perspective(1000px) rotateX(10deg) rotateY(-5deg) scale(1.05);
+    box-shadow: -15px 20px 25px rgba(0,0,0,0.5);
+    border-color: #90caf9; /* Hover par blue border */
 }
 
 .skill-category h3 {
@@ -321,6 +370,19 @@ nav ul li a:hover {
 
 .empty-project-card .flip-card-front {
     border: 2px dashed rgba(255, 255, 255, 0.3);
+}
+
+/* Jo cheez abhi screen par nahi hai, use chupa do aur neeche push kar do */
+.hidden-element {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 0.8s ease-out;
+}
+
+/* Jab JS ye class add karega, toh element smooth upar aayega */
+.show-element {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 /* Contact Form */
@@ -406,6 +468,50 @@ footer {
 
 footer p {
     color: #999;
+}
+
+/* --- AMBIENT BACKGROUND ANIMATION --- */
+
+#ambientCanvas {
+    position: fixed; /* Screen par fix rahega */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    
+    /* Layering logic */
+    z-index: -1; /* Baaki content ke peeche (Content has positive z-index) */
+    
+    /* Transparency taaki background gradient dikhe */
+    background: transparent; 
+    
+    /* Ensure mouse clicks text par jayein, animation par nahi */
+    pointer-events: none; 
+}
+
+/* Ensure data is readable: Humein cards aur containers ko solid background dena hoga 
+   taki patte unke peeche se guzrein, upar se nahi */
+
+.hero-content {
+    position: relative; /* z-index work karne ke liye zaroori */
+    z-index: 1; /* Canvas (-1) se upar */
+}
+
+/* Containers ko halka solid background dein readable banane ke liye 
+   agar background pure dark grey hai toh transparency thodi kam karein */
+#about, #focus, #experience, #projects, #skills, #achievements, #contact {
+    position: relative;
+    z-index: 1;
+    background-color: rgba(33, 33, 33, 0.9); /* 90% solid takki readable ho */
+    border-radius: 10px;
+    padding: 30px; /* Thoda space margins par */
+    margin-bottom: 20px;
+}
+
+/* Zaroori layering: containers ko canvas se upar laana */
+footer {
+    position: relative;
+    z-index: 1;
 }
 
 /* Responsive Design */
